@@ -1,0 +1,121 @@
+---
+title: ""
+author: ""
+format: 
+  dashboard:
+    theme: morph
+    logo: Imags/planeta.png
+    orientation: rows
+    css: styles2.css
+    scrolling: true
+    tabset: true
+header-includes:
+  - <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+jupyter: python3
+execute: 
+  echo: true
+  warning: false
+  message: false
+  comment: false
+---
+# PEAR
+<h1>Acerca de nosotros</h1>
+
+![](Imags/planeta.png){fig-align="center" width=30%}
+
+::: {.panel-green-leaf }
+PEAR se enfoca en la creación e implementación de una plataforma tecnológica, ya sea una página web o una aplicación móvil, destinada a educar y motivar a los estudiantes de secundaria de nuestra institución en prácticas de reciclaje y cuidado del medio ambiente. Esta plataforma ofrecerá recursos interactivos y educativos que buscan mejorar la educación ambiental, promoviendo una mayor participación activa en actividades ecológicas.<br>
+La investigación se centra en cómo una plataforma tecnológica interactiva puede mejorar la educación y la motivación de los estudiantes para practicar el reciclaje y el cuidado del medio ambiente en su entorno escolar. Para abordar este problema, es necesario diseñar recursos educativos atractivos y relevantes, además de incluir mecanismos que incentiven la participación activa, como la gamificación y sistemas de recompensas.
+:::
+
+# Medio Ambiente
+
+:::{.panel .panel-custom}
+<h1>El hoy de nuestra intitución</h1>
+
+:::
+
+![](Imags/im.png){fig-align="center" width=30%}
+
+
+:::{.panel-green-leaf }
+Las instituciones educativas enfrentan hoy en día un reto significativo en cuanto a la formación de la conciencia y práctica del cuidado del medio ambiente entre los adolescentes. Esta situación se refleja en la alta generación de residuos no reciclados y en la escasa participación en actividades ecológicas dentro de los centros escolares. La insuficiencia de programas educativos específicos, la falta de motivación de los estudiantes, y el acceso limitado a herramientas tecnológicas que puedan facilitar el aprendizaje en sostenibilidad, han creado una deficiente cultura de reciclaje en estos entornos.
+<br>
+<br>
+El proyecto se enfoca en la creación e implementación de una plataforma tecnológica, ya sea una página web o una aplicación móvil, destinada a educar y motivar a los estudiantes de secundaria de nuestra institución en prácticas de reciclaje y cuidado del medio ambiente. Esta plataforma ofrecerá recursos interactivos y educativos que buscan mejorar la educación ambiental, promoviendo una mayor participación activa en actividades ecológicas.
+La investigación se centra en cómo una plataforma tecnológica interactiva puede mejorar la educación y la motivación de los estudiantes para practicar el reciclaje y el cuidado del medio ambiente en su entorno escolar. Para abordar este problema, es necesario diseñar recursos educativos atractivos y relevantes, además de incluir mecanismos que incentiven la participación activa, como la gamificación y sistemas de recompensas.
+<br>
+<br>
+En la institución educativa El Nacional se ha identificado una carencia de formación adecuada en prácticas sostenibles entre los adolescentes, lo que ha resultado en una alta generación de residuos no reciclados y una baja participación en actividades ecológicas. La falta de programas educativos específicos y el acceso limitado a recursos tecnológicos contribuyen a esta situación. Sin embargo, existe un interés latente tanto en estudiantes como en docentes que podría ser aprovechado para implementar iniciativas que aborden estas deficiencias.
+<br>
+<br>
+Para evitar la continuidad de esta problemática, se propone desarrollar programas educativos sobre sostenibilidad y crear una plataforma web interactiva que ofrece información, recursos y actividades sobre el cuidado del medio ambiente. Además, es fundamental fomentar la participación activa de los estudiantes en actividades ecológicas mediante proyectos prácticos y programas de incentivos, como competiciones y premios. Un sistema de monitoreo y evaluación continua permitirá medir el impacto del proyecto y realizar ajustes para mejorar su efectividad.
+El objetivo general es incentivar y educar a los adolescentes sobre la importancia del cuidado del medio ambiente mediante un enfoque tecnológico y educativo integral. Las preguntas de investigación guiarán el desarrollo del proyecto y su evaluación. Este proyecto es relevante por la necesidad urgente de formar una generación consciente y responsable con el medio ambiente. Los beneficios esperados incluyen la reducción de residuos, la conservación de recursos y la formación de ciudadanos comprometidos con la sostenibilidad.
+La viabilidad del proyecto está respaldada por la disponibilidad de recursos educativos y tecnológicos, así como por el apoyo del personal docente y administrativo. Con el apoyo adecuado, este proyecto tiene el potencial de transformar la conciencia ambiental de los adolescentes y promover prácticas sostenibles en la secundaria de la institución educativa El Nacional.
+
+:::
+
+# Objetivos
+
+<h1>Objetivos</h1>
+
+![](Imags/ef.png){fig-align="center" width=30%}
+
+::: {.panel-green-leaf}
+El proyecto PEAR busca fomentar una conciencia ambiental sostenible entre los adolescentes de la Institución Educativa El Nacional. A través de un programa educativo que incluye módulos sobre gestión de residuos, conservación de recursos y cambio climático, se pretende informar e inspirar a los estudiantes a adoptar prácticas ecológicas.
+
+Se realizarán talleres, campañas de concienciación y eventos escolares para reforzar el aprendizaje. Además, se creará una red de apoyo entre estudiantes, docentes y la comunidad, con capacitación para integrar temas ambientales en el currículo. 
+
+El programa incluirá evaluaciones para medir su impacto, buscando un aumento en el conocimiento y la participación de los estudiantes en prácticas ecológicas, y empoderándolos como agentes de cambio en su comunidad.
+
+:::
+
+# Código de reciclaje
+
+<h1>Cuidado institucional</h1>
+
+::: {.panel-green-leaf}
+La clasificación de residuos es un aspecto fundamental en la gestión ambiental de cualquier institución, incluyendo El Nacional. Esta práctica no solo contribuye a la sostenibilidad, sino que también promueve la conciencia ecológica entre los estudiantes y el personal. En El Nacional, se han implementado canecas de diferentes colores para facilitar la separación de residuos: blanca, negra y verde.
+:::
+
+
+![](Imags/ca.jpeg){fig-align="center" width=50%}
+
+<div class="panelcustom2" style="border-radius: 15px; width: 80%; margin: 20px auto; padding: 20px; background-color: #ffffff; color: black;">
+  <h5><i class="fa-solid fa-newspaper"></i></i> Caneca Blanca: Residuos Reciclables</h5>
+  <p>Destinada a papel, cartón, plásticos y metales reciclables. Es importante que estos materiales estén limpios y secos para facilitar el reciclaje y reducir desechos en vertederos.</p>
+</div>
+
+<div class="panelcustom2" style="border-radius: 15px; width: 80%; margin: 20px auto; padding: 20px; background-color: #0e751f; color: white;">
+  <h5><i class="fa-brands fa-apple"></i></i> Caneca Verde: Residuos Orgánicos</h5>
+  <p>Reservada para residuos orgánicos, como restos de comida. Ideal para el compostaje, contribuye a la reducción de residuos y al enriquecimiento del suelo, fomentando prácticas agrícolas sostenibles.</p>
+</div>
+
+<div class="panelcustom2" style="border-radius: 15px; width: 80%; margin: 20px auto; padding: 20px; background-color: #000000; color: white;">
+  <h5><i class="fa-solid fa-wine-bottle"></i></i> Caneca Negra: Residuos Inorgánicos</h5>
+  <p>Utilizada para residuos inorgánicos, como plásticos y envolturas que no son biodegradables. Minimizar su uso es clave para reducir la contaminación y el espacio en vertederos.</p>
+</div>
+
+# Talleres educativos
+
+<h1>Guías educativas</h1>
+
+::: {.panel-green-leaf}
+Complementando las actividades, se ofrecerán guías, videos y artículos que profundizan en temas clave relacionados con la sostenibilidad y el reciclaje. Estos recursos servirán como herramientas valiosas para que los estudiantes de El Nacional amplíen su conocimiento y se conviertan en defensores activos del medio ambiente, tanto dentro como fuera del aula.Juntos, estos elementos crearán una experiencia educativa integral que equipará a los estudiantes de la Institución Educativa El Nacional con las habilidades y la motivación necesarias para convertirse en agentes de cambio en sus comunidades.
+:::
+
+![](Imags/23.jpg){fig-align="center" width=25%}
+
+<h2>Video-tips del cuidado ambiental</h2>
+
+https://www.youtube.com/watch?v=nvUqnpicSd0&ab_channel=SmileandLearn-Espa%C3%B1ol
+
+# Galería
+<h1>Galería</h1>
+![](Imags/1.jpeg){fig-align="center" width=40%}
+![](Imags/2.jpeg){fig-align="center" width=40%}
+![](Imags/3.jpeg){fig-align="center" width=40%}
+![](Imags/4.jpeg){fig-align="center" width=40%}
+![](Imags/5.jpeg){fig-align="center" width=40%}
+
+# Deja tu comentario

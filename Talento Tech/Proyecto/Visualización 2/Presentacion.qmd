@@ -1,0 +1,722 @@
+---
+title: "Agricultura en Bolívar y Córdoba"
+author: ""
+format: 
+  dashboard:
+    theme: lumen
+    logo: Imags/Banner.png
+    orientation: rows
+    css: styles.css
+    scrolling: true
+    tabset: true
+jupyter: python3
+execute: 
+  echo: true
+  warning: false
+  message: false
+  comment: false
+---
+# Agricultura
+
+::: {.panel .page-background}
+
+::: {.panel .panel-custom}
+<h1>Análisis del Desempeño Agrícola 2006-2023 en los Departamentos de Bolívar y Córdoba: Un Enfoque Basado en CRISP-DM para Evaluar Área Sembrada, Área Cosechada, Producción y Rendimiento</h1>
+:::
+
+::: {.panel-green-leaf .text-justified}
+</h2>**Integrantes:**</h2>
+
+* Carlos José Romero Escorcia,
+* Emmy Luz Oyola Díaz,
+* Juan Carlos Gutiérrez Ortega
+<br>
+<br>
+
+</h2>**Ejecutor técnico:** </h2> Jorge Luis Vilalba
+:::
+
+::: {.panel-green-leaf .text-centered}
+El rendimiento agrícola es un indicador clave para evaluar la eficiencia y la sostenibilidad de la producción en el sector rural. 
+Las fluctuaciones en el rendimiento no solo afectan la productividad, sino también el bienestar de las comunidades rurales, la estabilidad de los ingresos y, en última instancia, la seguridad alimentaria en toda las regiones.
+
+Con el objetivo de contribuir a la solución de los desafíos que surgen en el desarrollo de las misiones impulsadas por el Gobierno Nacional, especialmente aquellas relacionadas con la bioeconomía, los ecosistemas naturales, los territorios sostenibles y el derecho a la alimentación. Este análisis busca identificar patrones y tendencias dentro de los datos disponibles. Con el fin de facilitar la toma de decisiones en cuanto a políticas públicas agrícolas, inversiones en infraestructura y estrategias para mejorar la productividad en los próximos años.
+:::
+:::
+
+
+
+# Objetivos
+![](Imags/Ban.png){ width=300px }
+
+::: {.panel .panel-2}
+<h1>Objetivos</h1>
+
+<h3>Objetivo general</h3>
+<h5>Analizar el  Desempeño Agrícola en los Departamentos de Bolívar y Córdoba para el periodo 2006-2023</h5>
+<h3>Objetivos específicos</h3>
+- Identificar patrones y tendencias que permitan orientar las decisiones de políticas públicas.
+- Identificar diferencias en la producción agrícola para proponer soluciones específicas.
+- Generar recomendaciones basadas en datos para mejorar las prácticas agrícolas.
+:::
+
+
+```{python}
+#| echo: false
+
+# importación de librerías
+import pandas as pd
+import numpy as np
+import seaborn as sns                      
+import matplotlib.pyplot as plt 
+import plotly.express as px
+import plotly.subplots as sp
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+import ipywidgets as widgets
+from IPython.display import display
+from scipy import stats
+from scipy.stats import gaussian_kde
+from sklearn.preprocessing import MinMaxScaler, StandardScaler
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import r2_score, mean_squared_error
+
+# Normalización
+scaler_min_max = MinMaxScaler()
+
+# Estandarización
+scaler_standard = StandardScaler()
+
+# Data
+
+df = pd.read_csv('DataEVA.csv')
+df = pd.DataFrame(df)
+
+df.drop(columns=['Unnamed: 0'], inplace=True)
+df[['Año','Codigo depto','Codigo mpio']] = df[['Año','Codigo depto','Codigo mpio']].astype('object')
+
+# Eliminar registros con Área sembrada = 0
+df = df.drop(df[df['Area sembrada'] == 0].index)
+```
+
+
+
+# Datos <!-- Pestaña 2 -->
+
+### Fuentes de Datos
+
+<span style="color:blue">__Fuentes de Datos:__</span> 
+
+1. *Evaluaciones Agropecuarias Municipales EVA. 2019 - 2023. Base Agrícola | Datos Abiertos Colombia*
+2. *Evaluaciones Agropecuarias Municipales EVA. 2007 - 2018. Base Agrícola | Datos Abiertos Colombia*
+
+### 
+<span style="color:blue">__Bases de Datos__</span> 
+
+###
+```{python}
+#| component: valuebox
+#| title: Registros
+dict(
+    color = "primary",
+    value = df.shape[0]
+)
+```
+
+__Variables Cuantitativas:__
+- Área sembrada
+- Área cosechada
+- Producción
+- Rendimiento
+  
+__Valiables Cualitativas:__ 
+- Departamento
+- Municipio
+- Grupo cultivo
+- Subgrupo
+- Cultivo
+- Año
+- Ciclo del cultivo
+- Subregion
+
+__Periodo:__
+De 2006 a 2023
+
+```{python}
+#| echo: false
+
+tipos_datos = df.dtypes.value_counts()
+tipos_datos = tipos_datos.sort_index()
+labels = tipos_datos.index.astype(str).tolist()
+values = tipos_datos.tolist()
+fig = px.pie(names=labels, values=values, title="Tipos de datos")
+fig.update_traces(textinfo='percent+label', textfont_size=15)
+fig.update_layout(showlegend=False, width=300, height=300)
+fig.show();
+```
+
+## 
+
+![Herramientas utilizadas](Imags/Herramientas.png){ width=300px }
+
+
+## 
+__Tratamiento de datos faltantes__
+
+Durante la exploración inicial de la base de datos, se identificaron 262 registros con valores 
+faltantes (NaN) en la variable ‘Rendimiento’. Al investigar estos casos más a fondo, se 
+observó que las variables asociadas, como ‘Área cosechada’ y ‘Producción’, también 
+presentaban valores iguales a cero en todos esos registros. 
+Para mantener la consistencia en los datos y evitar introducir sesgos al análisis posterior, se 
+decidió reemplazar los valores faltantes en la variable ‘Rendimiento’ por cero. 
+
+Por otro lado, se identificaron 205 registros en los que el valor de 'Área sembrada' era igual 
+a cero, mientras que tanto 'Área cosechada' como 'Producción' presentaban valores mayores 
+a cero, lo cual resulta incoherente. Por este motivo, se decidió eliminar dichos registros del 
+análisis, quedando con un total de 16149 registros.
+
+# Gráficos básicos
+
+### {.tabset}
+
+#### Boxplot
+```{python}
+#| echo: false
+
+quantitative_vars = ['Area sembrada', 'Area cosechada', 'Produccion', 'Rendimiento']
+
+# Crear subplots (1 fila, 4 columnas)
+fig = sp.make_subplots(rows=1, cols=4, shared_yaxes=False)
+
+# Iterar sobre las variables cuantitativas para crear boxplots
+for i, var in enumerate(quantitative_vars, start=1):
+    # Crear el boxplot
+    box = go.Box(y=df[var], name=var, showlegend=False)  # Eliminar leyenda
+
+    # Añadir el boxplot al subplot correspondiente
+    fig.add_trace(box, row=1, col=i)
+
+# Ajustar el diseño
+fig.update_layout(
+    height=500,  # Ajustar la altura total del gráfico
+)
+
+# Mostrar el gráfico
+fig.show();
+```
+
+#### Histograma
+```{python}
+#| echo: false
+
+fig = sp.make_subplots(rows=2, cols=2, shared_xaxes=False)
+
+# Iterar sobre las variables cuantitativas para crear histogramas
+for i, var in enumerate(quantitative_vars, start=1):
+    # Obtener la fila y la columna correspondientes
+    row = (i - 1) // 2 + 1
+    col = (i - 1) % 2 + 1
+
+    # Crear el histograma
+    hist = go.Histogram(x=df[var], name=var, opacity=0.75, showlegend=False, histnorm='probability density')
+
+    # Calcular la densidad
+    density = gaussian_kde(df[var])
+    x = np.linspace(min(df[var]), max(df[var]), 100)
+    y = density(x)
+
+    # Añadir el histograma al subplot correspondiente
+    fig.add_trace(hist, row=row, col=col)
+
+    # Agregar la línea de densidad (sin leyenda y color negro)
+    fig.add_trace(go.Scatter(x=x, y=y, mode='lines', line=dict(color='grey'), showlegend=False), row=row, col=col)
+
+# Ajustar el diseño
+fig.update_layout(
+    height=600,  # Ajustar la altura total del gráfico
+)
+
+# Ajustar etiquetas de los ejes
+for i, var in enumerate(quantitative_vars, start=1):
+    row = (i - 1) // 2 + 1
+    col = (i - 1) % 2 + 1
+    fig.update_xaxes(title_text=var, row=row, col=col)
+
+# Mostrar el gráfico
+fig.show();
+```
+
+#### Mapa de calor
+```{python}
+#| title: Mapa de Calor
+#| echo: false
+
+plt.figure(figsize=(10,6))
+corr = df[['Area sembrada', 'Area cosechada', 'Produccion', 'Rendimiento']].corr()
+sns.heatmap(corr, annot=True, cmap='coolwarm')
+plt.title('Mapa de Calor de Correlaciones')
+plt.show();
+```
+
+#### Pairplot
+```{python}
+#| echo: false
+
+df_numeric = df.select_dtypes(include=['float64'])
+
+# Crear un par de gráficos de dispersión (scatter matrix) con color por 'Departamento'
+fig = px.scatter_matrix(df_numeric,
+    dimensions=df_numeric.columns,  # Las columnas a incluir en la matriz
+    title="Matriz de Dispersión de Variables Numéricas",
+    color=df['Departamento'],  # Colorear por la columna 'Departamento'
+    height=800  # Ajusta la altura del gráfico
+)
+
+# Ajustar el tamaño de los puntos
+fig.update_traces(marker=dict(size=5))  # Ajusta el tamaño según sea necesario
+
+# Mostrar el gráfico
+fig.show();
+```
+
+##
+```{python}
+#| echo: false
+# Obtener registros máximos
+registro_max_area = df.loc[df['Area sembrada'].idxmax(), ['Municipio', 'Area sembrada','Año','Departamento']]
+registro_max_area_cosechada = df.loc[df['Area cosechada'].idxmax(), ['Municipio', 'Area cosechada','Año','Departamento']]
+registro_max_produccion = df.loc[df['Produccion'].idxmax(), ['Municipio', 'Produccion','Año','Departamento']]
+registro_max_rendimiento = df.loc[df['Rendimiento'].idxmax(), ['Municipio', 'Rendimiento','Año','Departamento']]
+
+# Convertir los registros a un formato adecuado para los valueboxes
+municipio_max_area = registro_max_area['Municipio']
+area_max = registro_max_area['Area sembrada']
+as_max = registro_max_area['Año']
+das_max = registro_max_area['Departamento']
+
+municipio_max_cosechada = registro_max_area_cosechada['Municipio']
+cosechada_max = registro_max_area_cosechada['Area cosechada']
+ac_max = registro_max_area_cosechada['Año']
+dac_max = registro_max_area_cosechada['Departamento']
+
+municipio_max_produccion = registro_max_produccion['Municipio']
+produccion_max = registro_max_produccion['Produccion']
+p_max = registro_max_produccion['Año']
+dp_max = registro_max_produccion['Departamento']
+
+municipio_max_rendimiento = registro_max_rendimiento['Municipio']
+rendimiento_max = registro_max_rendimiento['Rendimiento']
+r_max = registro_max_rendimiento['Año']
+dr_max = registro_max_rendimiento['Departamento']
+
+```
+
+####
+
+```{python}
+#| content: valuebox
+#| title: "Área Sembrada Máxima"
+dict(
+  color = "primary",
+  value = f"{municipio_max_area}, {das_max}\n{area_max:.2f} ha \n{as_max}"  # Usar \n para el salto de línea
+)
+```
+
+```{python}
+#| content: valuebox
+#| title: "Área Cosechada Máxima"
+dict(
+  color = "danger",
+  value = f"{municipio_max_cosechada}, {dac_max}\n{cosechada_max:.2f} ha\n{ac_max}"  # Usar \n para el salto de línea
+)
+```
+
+```{python}
+#| content: valuebox
+#| title: "Producción Máxima"
+dict(
+  color = "success",
+  value = f"{municipio_max_produccion}, {dp_max}\n{produccion_max:.2f} t\n{p_max}"  # Usar \n para el salto de línea
+)
+```
+
+```{python}
+#| content: valuebox
+#| title: "Rendimiento Máximo"
+dict(
+  color = "info",
+  value = f"{municipio_max_rendimiento}, {dr_max}\n{rendimiento_max:.2f} t/ha\n{r_max}"  # Usar \n para el salto de línea
+)
+```
+
+<div style="display: flex; justify-content: space-between;">
+
+
+# Visualizaciones
+
+## {.tabset}
+
+```{python}
+#| echo: false 
+#| title: Promedio Anual de Variables por departamentos
+# Agrupar por 'Año' y 'Departamento' y calcular el promedio para las columnas de interés
+df_mean = df.groupby(['Año', 'Departamento'])[['Area sembrada', 'Area cosechada', 'Produccion', 'Rendimiento']].mean().reset_index()
+
+# Variables que queremos graficar y sus títulos
+variables = ['Area sembrada', 'Area cosechada', 'Produccion', 'Rendimiento']
+titulos = ['Área Sembrada', 'Área Cosechada', 'Producción', 'Rendimiento']
+
+# Obtener la lista de departamentos únicos
+departamentos = df_mean['Departamento'].unique()
+
+# Crear gráficos separados para cada variable
+figs = []
+for var, titulo in zip(variables, titulos):
+  fig = go.Figure()
+  for dept in departamentos:
+    df_dept = df_mean[df_mean['Departamento'] == dept]
+    fig.add_trace(go.Scatter(x=df_dept['Año'], y=df_dept[var], mode='lines', name=dept))
+  fig.update_layout(title=f'{titulo} por Departamento y Año', xaxis_title='Año', yaxis_title=titulo)
+  figs.append(fig)
+
+# Asignar los gráficos a variables separadas
+fig1, fig2, fig3, fig4 = figs
+
+# Mostrar los gráficos
+fig1.show();
+fig2.show();
+fig3.show();
+fig4.show();
+
+```
+
+
+
+
+```{python}
+
+#| title: Top 10 Cultivos por Rendimiento
+#| echo: false
+
+# Agrupar por Cultivo y calcular el promedio de Rendimiento y obtener el ciclo de cultivo
+df_cultivo_rendimiento = df.groupby(['Cultivo', 'Ciclo'])['Rendimiento'].mean().reset_index()
+
+# Obtener los 10 cultivos con mayor rendimiento
+top_10_rendimiento = df_cultivo_rendimiento.nlargest(10, 'Rendimiento')
+
+# Crear un gráfico de barras para los 10 cultivos con mayor rendimiento usando Plotly
+fig = px.bar(top_10_rendimiento.sort_values(by='Rendimiento', ascending=True), x='Rendimiento', y='Cultivo', color='Ciclo', orientation='h',
+  title='Top 10 Cultivos por Rendimiento',
+  labels={'Rendimiento': 'Rendimiento (Toneladas/Hectárea)', 'Cultivo': 'Cultivo', 'Ciclo': 'Ciclo de Cultivo'},
+  color_discrete_sequence=px.colors.qualitative.Set1)  # Usar una paleta de colores cualitativa para diferenciar mejor
+
+# Ajustes de diseño
+fig.update_layout(
+  xaxis_title='Rendimiento (Toneladas/Hectárea)',
+  yaxis_title='Cultivo',
+  legend_title='Ciclo de Cultivo',
+  margin=dict(l=0, r=0, t=30, b=0)
+)
+
+fig.show();
+
+```
+
+
+```{python}
+
+#| title: Top 3 municipios más productivos por departamento
+#| echo: false
+
+# Agrupamos por Departamento y Municipio para obtener la producción total por municipio
+df_grouped = df.groupby(['Departamento', 'Municipio'])['Produccion'].sum().reset_index()
+
+# Para obtener los top 3 municipios más productivos por departamento
+df_grouped['Rank'] = df_grouped.groupby('Departamento')['Produccion'].rank(method='first', ascending=False)
+
+# Filtramos los primeros 3 municipios por departamento
+df_top3_municipios = df_grouped[df_grouped['Rank'] <= 3].sort_values(['Departamento', 'Rank'])
+
+# Creamos la gráfica con Plotly
+fig = px.bar(df_top3_municipios, x='Produccion', y='Municipio', color='Departamento', orientation='h',
+      title='Top 3 municipios más productivos por departamento',
+      labels={'Produccion': 'Producción (toneladas)', 'Municipio': 'Municipio'})
+
+# Ajustes de diseño
+fig.update_layout(
+  legend_title_text='Departamento',
+  legend=dict(x=1.05, y=1),
+  margin=dict(l=0, r=0, t=30, b=0)
+)
+
+fig.show();
+
+```
+
+
+
+```{python}
+
+#| title: Top 10 Cultivos por Producción
+#| echo: false  
+# Agrupar por Departamento y Cultivo, y sumar la Producción
+df_cultivo_produccion = df.groupby(['Departamento', 'Cultivo'])['Produccion'].sum().reset_index()
+
+# Obtener los 10 cultivos con mayor producción por departamento
+top_10_cultivos = df_cultivo_produccion.groupby('Departamento').apply(lambda x: x.nlargest(10, 'Produccion')).reset_index(drop=True)
+
+# Crear un gráfico de barras para cada departamento usando Plotly
+departamentos = top_10_cultivos['Departamento'].unique()
+
+# Dividir los departamentos en dos grupos
+departamentos1 = departamentos[:len(departamentos)//2]
+departamentos2 = departamentos[len(departamentos)//2:]
+
+# Crear subplots para el primer grupo de departamentos
+fig1 = make_subplots(rows=len(departamentos1), cols=1, shared_xaxes=True, subplot_titles=departamentos1)
+
+for i, departamento in enumerate(departamentos1):
+  data = top_10_cultivos[top_10_cultivos['Departamento'] == departamento].sort_values(by='Produccion', ascending=True)
+  fig1.add_trace(
+    go.Bar(x=data['Produccion'], y=data['Cultivo'], orientation='h', name=departamento, marker_color=px.colors.qualitative.Plotly[i % len(px.colors.qualitative.Plotly)]),
+    row=i+1, col=1
+  )
+
+# Ajustar el diseño para el primer grupo
+fig1.update_layout(
+  height=400 * len(departamentos1),  # Ajustar la altura total del gráfico
+  title_text='',
+  showlegend=False
+)
+
+# Ajustar etiquetas de los ejes para el primer grupo
+for i, departamento in enumerate(departamentos1):
+  fig1.update_xaxes(title_text='Producción (Toneladas)', row=i+1, col=1)
+  fig1.update_yaxes(title_text='Cultivo', row=i+1, col=1)
+
+# Crear subplots para el segundo grupo de departamentos
+fig2 = make_subplots(rows=len(departamentos2), cols=1, shared_xaxes=True, subplot_titles=departamentos2)
+
+for i, departamento in enumerate(departamentos2):
+  data = top_10_cultivos[top_10_cultivos['Departamento'] == departamento].sort_values(by='Produccion', ascending=True)
+  fig2.add_trace(
+    go.Bar(x=data['Produccion'], y=data['Cultivo'], orientation='h', name=departamento, marker_color=px.colors.qualitative.Plotly[i % len(px.colors.qualitative.Plotly)]),
+    row=i+1, col=1
+  )
+
+# Ajustar el diseño para el segundo grupo
+fig2.update_layout(
+  height=400 * len(departamentos2),  # Ajustar la altura total del gráfico
+  title_text='',
+  showlegend=False
+)
+
+# Ajustar etiquetas de los ejes para el segundo grupo
+for i, departamento in enumerate(departamentos2):
+  fig2.update_xaxes(title_text='Producción (Toneladas)', row=i+1, col=1)
+  fig2.update_yaxes(title_text='Cultivo', row=i+1, col=1)
+
+# Mostrar los gráficos
+fig1.show();
+fig2.show();
+
+```
+
+
+```{python}
+#| title: Promedio de area sembrada por subregiones
+#| echo: false
+
+# Parte 1: Gráfico para el primer departamento
+df['Año'] = df['Año'].astype(int)
+
+# Filtrar los datos por departamento
+departamentos = df['Departamento'].unique()
+
+# Crear una figura de subplots con Plotly para el primer departamento
+fig1 = make_subplots(rows=1, cols=1, shared_xaxes=True, subplot_titles=[departamentos[0]])
+
+df_depto1 = df[df['Departamento'] == departamentos[0]]
+area_sembrada_subregion1 = df_depto1.groupby(['SUBREGION', 'Año'])['Area sembrada'].mean().unstack(level=0)
+
+for subregion in area_sembrada_subregion1.columns:
+  fig1.add_trace(
+    go.Scatter(x=area_sembrada_subregion1.index, y=area_sembrada_subregion1[subregion], mode='lines', name=subregion),
+    row=1, col=1
+  )
+
+fig1.update_xaxes(title_text='Año', row=1, col=1)
+fig1.update_yaxes(title_text='Área sembrada', row=1, col=1)
+
+# Ajustar el diseño
+fig1.update_layout(
+  height=400,  # Ajustar la altura total del gráfico
+  title_text='',
+  showlegend=False,
+  legend=dict(x=1.05, y=1, font=dict(size=10))
+)
+
+
+# Parte 2: Gráfico para el segundo departamento
+fig2 = make_subplots(rows=1, cols=1, shared_xaxes=True, subplot_titles=[departamentos[1]])
+
+df_depto2 = df[df['Departamento'] == departamentos[1]]
+area_sembrada_subregion2 = df_depto2.groupby(['SUBREGION', 'Año'])['Area sembrada'].mean().unstack(level=0)
+
+for subregion in area_sembrada_subregion2.columns:
+  fig2.add_trace(
+    go.Scatter(x=area_sembrada_subregion2.index, y=area_sembrada_subregion2[subregion], mode='lines', name=subregion),
+    row=1, col=1
+  )
+
+fig2.update_xaxes(title_text='Año', row=1, col=1)
+fig2.update_yaxes(title_text='Área sembrada', row=1, col=1)
+
+# Ajustar el diseño
+fig2.update_layout(
+  height=400,  # Ajustar la altura total del gráfico
+  title_text='',
+  showlegend=False,
+  legend=dict(x=1.05, y=1, font=dict(size=10))
+)
+
+# Mostrar el gráfico
+fig1.show();
+fig2.show();
+```
+
+
+```{python}
+#| title: Producción y Rendimiento Promedio de cultivos
+
+#| echo: false
+# Paso 1: Calcular la suma total de la produccion por cultivo
+top_cultivos = df.groupby('Cultivo', observed=True)['Produccion'].sum().nlargest(5).index
+
+# Paso 2: Filtrar los datos para los 5 cultivos mas producidos
+df_top_cultivos = df[df['Cultivo'].isin(top_cultivos)]
+
+# Paso 3: Agrupar los datos por ano y cultivo para calcular el promedio de las variables
+df_grouped = df_top_cultivos.groupby(['Año', 'Cultivo'], observed=True).agg(
+  {'Area sembrada': 'mean', 'Area cosechada': 'mean', 
+  'Produccion': 'mean', 'Rendimiento': 'mean'}).reset_index()
+
+# Paso 4: Graficar el comportamiento de las 4 variables por año y cultivo con Plotly
+import plotly.express as px
+
+# Lista de variables a graficar
+variables = ['Produccion', 'Rendimiento']
+titles = ['Produccion promedio', 'Rendimiento promedio']
+
+# Crear gráficos de líneas para cada variable
+figs = []
+for var, title in zip(variables, titles):
+  fig = px.line(df_grouped, x='Año', y=var, color='Cultivo', title=title)
+  fig.update_layout(xaxis_title='Año', yaxis_title=var)
+  figs.append(fig)
+
+```
+
+
+```{python}
+#| title: Distribución del Ciclo por Departamento
+#| echo: false
+
+fig = px.histogram(df, x='Ciclo', color='Departamento', barmode='group', 
+            title='Distribución de Ciclo por Departamento', 
+            labels={'Ciclo': 'Ciclo', 'count': 'Frecuencia'})
+
+fig.update_layout(
+    xaxis_title='Ciclo',
+    yaxis_title='Frecuencia',
+    legend_title='Departamento',
+    legend=dict(x=1.05, y=1)
+)
+
+fig.show();
+```
+
+
+
+# Mapa
+
+```{=html}
+
+
+<div class='tableauPlaceholder' id='viz1729318841321' style='position: relative'><noscript><a href='#'><img alt='Dashboard EVA ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Pr&#47;ProduccinAgrcolaenBolvaryCrdoba&#47;DashboardEVA&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='ProduccinAgrcolaenBolvaryCrdoba&#47;DashboardEVA' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Pr&#47;ProduccinAgrcolaenBolvaryCrdoba&#47;DashboardEVA&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='es-ES' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1729318841321');                    var vizElement = divElement.getElementsByTagName('object')[0];                    if ( divElement.offsetWidth > 800 ) { vizElement.style.width='1000px';vizElement.style.height='827px';} else if ( divElement.offsetWidth > 500 ) { vizElement.style.width='1000px';vizElement.style.height='827px';} else { vizElement.style.width='100%';vizElement.style.height='1227px';}                     var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
+
+
+```
+
+
+# Conclusiones
+![](Imags/Ban.png){ width=300px }
+
+::: {.panel .panel-2}
+<h1>Conclusiones</h1>
+
+
+:::{.panelcustom2 .panel-red}
+Identificación de Factores que Afectan el Rendimiento Agrícola.
+:::
+
+:::{.panelcustom2 .panel-blue}
+Disparidades en la Productividad por Región y Tipo de Cultivo.
+:::
+
+:::{.panelcustom2 .panel-green}
+Disparidades en la Productividad por Región y Tipo de Cultivo.
+:::
+
+:::{.panelcustom2 .panel-yellow}
+Un Enfoque Integral para Mejorar el Rendimiento Agrícola.
+:::
+
+
+<h2>Respuestas a Preguntas de Negocio:</h2>
+
+:::{.panelcustom2 .panel-blue}
+Existen diferencias significativas en la productividad según el tipo de cultivo y la región, lo que subraya la importancia de un análisis específico para cada caso.
+:::
+
+:::{.panelcustom2 .panel-green}
+El rendimiento de los cultivos en Bolívar y Córdoba ha mostrado variaciones, con Córdoba generalmente liderando en términos de rendimiento.
+:::
+
+:::{.panelcustom2 .panel-yellow}
+La producción en toneladas de los cultivos clave ha sido volátil, especialmente después de 2018, lo que refuerza la necesidad de investigar las causas detrás de estas fluctuaciones y establecer estrategias para mitigar su impacto.
+:::
+:::
+
+
+# Bibliografía
+![](Imags/Ban.png){ width=300px }
+
+::: {.panel .panel-2}
+
+<h1>Bibliografía</h1>
+[1] Ministerio de Agricultura y Desarrollo Rural de Colombia, “El sector agropecuario 
+mantiene su tendencia de recuperación: empujó el crecimiento del PIB con un aumento del 
+6% en el último trimestre de 2023” 
+
+[2] Evaluaciones Agropecuarias Municipales EVA, 2007-2023. Base Agrícola | Datos 
+Abiertos Colombia. 
+
+[3] Ministerio de Agricultura y Desarrollo Rural de Colombia, "Informe de avances sobre el desarrollo agropecuario en Colombia," 2020. 
+
+[4] Schröer, C., Kruse, F., & Gómez, J. M. (2021). A systematic literature review on applying CRISP-DM process model. Procedia Computer Science, 181, 526–534 
+
+[5] J. Gómez, "Prácticas agrícolas y rendimiento en cultivos en Colombia," Universidad 
+Nacional de Colombia, 2019. 
+
+[6] R. Hernández, "Factores clave en la productividad agrícola en Colombia," Revista de 
+Economía Agrícola, 2021. 
+
+[7] P. López, "Impacto de la infraestructura en la producción agrícola en regiones de 
+Colombia," Análisis Regional, vol. 18, no. 2, pp. 45-67, 2022.
+
+[8] Unidad de Planificación Rural Agropecuaria - UPRA. (2024). Producto Interno Bruto - PIB Año 2023 y IV trimestre de 2023.
+
+[9] Roman Khan, Muhammad Usman, Muhammad Moinuddin. (2024). From Raw Data to Actionable Insights: Navigating the World of Data Analytics.
+:::

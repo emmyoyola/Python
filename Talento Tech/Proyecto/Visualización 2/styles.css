@@ -1,0 +1,134 @@
+/* styles.css */
+.justified {
+    text-align: justify;
+}
+
+/* Ajuste del espacio entre títulos y secciones */
+h2 {
+    margin-top: 10px;   /* Ajusta el espacio antes del título */
+    margin-bottom: 10px; /* Ajusta el espacio después del título */
+}
+
+  /* Ajuste del espaciado entre párrafos */
+p {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+  /* Ajuste de espaciado entre tarjetas (si usas tarjetas o paneles) */
+.card {
+    margin-bottom: 15px;  /* Ajusta este valor según el espacio que desees entre secciones */
+}
+
+body {
+  background-image: url('Imags\Agri.jpg');
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+}
+
+img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 80%;  /* Ajusta el tamaño de la imagen */
+  max-height: 400px;  /* Opcional, ajusta la altura máxima */
+}
+
+.panel-custom {
+  padding: 20px; /* Espaciado interno */
+  border-radius: 10px; /* Bordes redondeados */
+  color: #002ba0; /* Color del texto */
+  text-align: center; /* Centra el texto */
+  display: inline-block; /* Permite que el ancho se ajuste al contenido */
+  font-weight: bold;
+  /* height: auto; */ /* No establezcas una altura fija; esto es opcional ya que 'auto' es el valor predeterminado */
+}
+
+/* Asegúrate de que el color del texto sea legible */
+.panel-custom h1 {
+  color: #002ba0; /* Color del encabezado dentro del panel */
+  font-weight: bold; /* Asegura que el texto esté en negrita */
+  margin: 0; /* Elimina márgenes predeterminados del encabezado */
+}
+
+.panel-2 {
+  width: 80%; /* Ajusta el ancho al 80% del contenedor */
+  padding: 20px;
+  border-radius: 10px;
+  margin: 0 auto; /* Centra el panel horizontalmente */
+  color: rgb(0, 0, 0); /* Cambia el color del texto a negro */
+  text-align: justify; /* Centra el texto dentro del panel */
+  /* No se especifica la altura, por lo que el panel se ajustará al contenido */
+}
+
+.page-background {
+  position: relative; /* Para posicionar el pseudo-elemento correctamente */
+  padding: 20px; /* Espaciado interno */
+  border-radius: 10px; /* Bordes redondeados opcional */
+  overflow: hidden; /* Para que no se salga el pseudo-elemento */
+}
+
+.page-background::before {
+  content: ""; /* Necesario para el pseudo-elemento */
+  position: absolute; /* Posiciona el pseudo-elemento */
+  top: 0; /* Alinea al top */
+  left: 0; /* Alinea a la izquierda */
+  right: 0; /* Alinea a la derecha */
+  bottom: 0; /* Alinea al fondo */
+  background-image: url('Imags/Fondo.jpg'); /* Cambia esta ruta por la de tu imagen */
+  background-size: cover; /* Asegura que la imagen cubra toda la sección */
+  background-position: center; /* Centra la imagen */
+  filter: blur(1px); /* Ajusta el valor para el nivel de desenfoque */
+  z-index: 0; /* Envía al fondo */
+}
+
+.page-background .panel {
+  position: relative; /* Asegura que los paneles se posicionen sobre el fondo */
+  z-index: 1; /* Trae los paneles al frente */
+  color: white; /* Ajusta el color del texto según sea necesario */
+}
+
+.panelcustom2 {
+  border-radius: 100px;    /* Esquinas redondeadas */
+  padding: 15px;          /* Espacio interno */
+  margin-bottom: 15px;    /* Espacio entre paneles */
+  text-align: center;
+  color: #000000;
+  margin-bottom: 15px;    /* Espacio entre paneles */
+}
+
+.panel-red {
+  background-color: rgba(0, 26, 255, 0.6); /* Color de fondo para el panel rojo */
+}
+
+.panel-blue {
+  background-color: rgba(44, 65, 255, 0.6); /* Color de fondo para el panel azul */
+}
+
+.panel-green {
+  background-color: rgba(79, 96, 255, 0.6); /* Color de fondo para el panel verde */
+}
+
+.panel-yellow {
+  background-color: rgba(111, 125, 248, 0.6); /* Color de fondo para el panel amarillo */
+}
+
+.panel-green-leaf {
+  background-color: #0d4100; /* Verde hoja */
+  color: black; /* Texto negro */
+  padding: 20px; /* Espacio interno */
+  border-radius: 10px; /* Bordes redondeados */
+  width: 80%; /* Ocupa el 80% del ancho */
+  margin: 20px auto; /* Centrado horizontalmente */
+  position: relative; /* Asegura que se posicione respecto a su contenedor */
+  z-index: 2; /* Coloca el panel por encima del fondo */
+}
+
+.text-centered {
+  text-align: center; /* Texto centrado */
+}
+
+.text-justified {
+  text-align: justify; /* Texto justificado */
+}

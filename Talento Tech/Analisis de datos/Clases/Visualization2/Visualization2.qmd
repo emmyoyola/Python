@@ -1,0 +1,238 @@
+---
+title: "Visualization 2"
+author: Jorge Luis Villalba Acevedo
+format: 
+  dashboard:
+    logo: Imags/Banner.png
+    orientation: rows
+jupyter: python3
+execute: 
+  echo: false
+  warning: false
+  message: false
+  commet: false
+---
+
+
+# Seaborn
+
+
+## Row 
+
+La mayoría de las funciones en Seaborn permiten crear gráficos fácilmente. Argumentos comunes incluyen:
+
+```r
+- `data`: el dataset que se utilizará.
+- `x` y `y`: variables para los ejes.
+- `hue`: una variable para añadir color según categorías.
+- `palette`: el esquema de colores a usar.
+```
+
+## Column
+
+```{python}
+#| eval: false
+#| echo: true
+#| title: Instalar librerias
+pip install seaborn matplotlib plotly
+
+```
+
+
+```{python}
+#| title: Activación de la Librería Seaborn
+#| echo: true
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Cargando el dataset de ejemplo
+df = sns.load_dataset("penguins")
+```
+
+
+
+
+
+#  Gráficos unidimensionales
+
+### Column {.tabset}
+
+```{python}
+#| title: Barplot 
+sns.barplot(data=df, x='species', y='body_mass_g')
+plt.show()
+```
+
+
+```{python}
+#| title: Histogram 
+sns.histplot(data=df, x='flipper_length_mm', bins=20, kde=True)
+plt.show()
+```
+
+
+```{python}
+#| title: Boxplot 
+sns.boxplot(data=df,  y='body_mass_g')
+plt.show()
+```
+
+
+```{python}
+#| title: Lineplot
+sns.lineplot(data=df, x='flipper_length_mm', y='body_mass_g', hue='species')
+plt.show()
+```
+
+
+```{python}
+#| title: Gráfico de densidad
+sns.kdeplot(df['flipper_length_mm'], shade=True)
+plt.title('Gráfico de Densidad de Flipper Length')
+plt.show()
+```
+
+
+
+# Gráficos bidimensionales
+
+### Column {.tabset}
+
+```{python}
+#| title:  Scatterplot
+
+sns.scatterplot(data=df, x='bill_length_mm', y='bill_depth_mm', hue='species', palette='coolwarm')
+plt.show()
+
+```
+
+
+
+
+```{python}
+#| title: pairplot
+# , hue='species'
+sns.pairplot(df, hue='species')
+plt.title('Gráfico de Pares')
+plt.show()
+
+```
+
+
+
+```{python}
+#| title: Boxplot 
+sns.boxplot(data=df, x='species', y='body_mass_g')
+plt.show()
+```
+
+
+```{python}
+#| title: boxplot with hue
+sns.boxplot(x='species', y='body_mass_g', hue='sex', data=df)
+plt.title('Gráfico de Caja con Hue')
+plt.show()
+```
+
+
+```{python}
+#| title: Graph of stacked bars
+sns.histplot(data=df, x='species', hue='sex', multiple='stack')
+plt.title('Gráfico de Barras Apiladas')
+plt.show()
+```
+
+
+
+```{python}
+#| title: facetas
+g = sns.FacetGrid(df, col='species', hue='sex')
+g.map(sns.scatterplot, 'flipper_length_mm', 'body_mass_g').add_legend()
+plt.show()
+```
+
+
+
+
+```{python}
+#| title: jointplot 
+sns.jointplot(x='flipper_length_mm', y='body_mass_g', kind='reg', data=df)
+plt.title('Gráfico de Regresión')
+plt.show()
+```
+
+
+```{python}
+#| title: heatmap
+
+# Seleccionar solo las columnas numéricas
+df1 = df.select_dtypes(include=['float64', 'int64'])
+corr = df1.corr()
+sns.heatmap(corr, annot=True, cmap='coolwarm')
+plt.title('Mapa de Calor de la Correlación')
+plt.show()
+```
+
+
+# Regresión
+
+### Column {.tabset}
+
+
+
+```{python}
+#| title: Tamaño del gráfico
+sns.lmplot(x='flipper_length_mm', y='body_mass_g', hue='species', data=df, height=7, aspect=1.5)
+plt.title('Gráfico lmplot con Tamaño Ajustado')
+plt.show()
+```
+
+
+```{python}
+#| title:  facetas
+sns.lmplot(x='flipper_length_mm', y='body_mass_g', hue='species', col='sex', data=df)
+plt.title('Gráfico lmplot con Facetas por Sexo')
+plt.show()
+```
+
+```{python}
+#| title: Ajuste
+sns.lmplot(x='flipper_length_mm', y='body_mass_g', hue='species', data=df, robust=True)
+plt.title('Gráfico lmplot con Ajuste Robusto')
+plt.show()
+```
+
+```{Python}
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

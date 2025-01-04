@@ -1,0 +1,157 @@
+---
+title: ""
+author: Jorge Luis Villalba Acevedo
+format: 
+  dashboard:
+    logo: Imags/Banner.png
+    orientation: rows
+    theme: materia
+jupyter: python3
+execute: 
+  echo: false
+  warning: false
+  message: false
+  commet: false
+---
+
+# Plotly
+
+Para trabajar con Plotly, es necesario importar la librería y cargar un dataset. Plotly es una librería interactiva que permite crear gráficos de alta calidad.
+
+```python
+#| eval: false
+#| echo: true
+#| title: Instalar librerias
+pip install plotly pandas
+pip install statsmodels
+
+```
+
+```{python}
+#| title: Activación de la Librería Plotly
+#| echo: true
+# Activación de Plotly
+import plotly.express as px
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+import statsmodels.api as sm
+# Cargando el dataset de ejemplo
+df = sns.load_dataset("penguins")
+```
+
+
+
+La mayoría de las funciones en Plotly permiten crear gráficos fácilmente. Argumentos comunes incluyen:
+
+- `data_frame`: el dataset que se utilizará.
+- `x` y `y`: variables para los ejes.
+- `color`: una variable para añadir color según categorías.
+- `template`: el esquema de colores a usar.
+
+# Gráficos unidimensionales
+
+### Column {.tabset}
+
+```{python}
+#| title: Barplot 
+fig = px.bar(df, x='species', y='body_mass_g')
+fig.show()
+```
+
+
+
+```{python}
+#| title: Histogram 
+fig = px.histogram(df, x='flipper_length_mm', nbins=20, marginal="rug")
+fig.show()
+```
+
+```{python}
+#| title: Boxplot 
+fig = px.box(df, y='body_mass_g')
+fig.show()
+```
+
+```{python}
+#| title: Lineplot
+fig = px.line(df, x='flipper_length_mm', y='body_mass_g', color='species')
+fig.show()
+```
+
+```{python}
+#| title: Gráfico de densidad
+fig = px.density_contour(df, x='flipper_length_mm', y='body_mass_g')
+fig.show()
+```
+
+# Gráficos bidimensionales
+
+### Column {.tabset}
+
+```{python}
+#| title: Scatterplot
+fig = px.scatter(df, x='bill_length_mm', y='bill_depth_mm', color='species', template='plotly')
+fig.show()
+```
+
+```{python}
+#| title: pairplot
+fig = px.scatter_matrix(df, dimensions=["bill_length_mm", "bill_depth_mm", "flipper_length_mm", "body_mass_g"], color='species')
+fig.show()
+```
+
+```{python}
+#| title: Boxplot 
+fig = px.box(df, x='species', y='body_mass_g')
+fig.show()
+```
+
+
+
+```{python}
+#| title: boxplot with hue
+fig = px.box(df, x='species', y='body_mass_g', color='sex')
+fig.show()
+```
+
+```{python}
+#| title: Graph of stacked bars
+fig = px.histogram(df, x='species', color='sex', barmode='stack')
+fig.show()
+```
+
+```{python}
+#| title: facetas
+fig = px.scatter(df, x='flipper_length_mm', y='body_mass_g', color='sex', facet_col='species')
+fig.show()
+```
+
+```{python}
+#| title: jointplot 
+fig = px.scatter(df, x='flipper_length_mm', y='body_mass_g', trendline='ols')
+fig.show()
+```
+
+# Regresión
+
+### Column {.tabset}
+
+```{python}
+#| title: Tamaño del gráfico
+fig = px.scatter(df, x='flipper_length_mm', y='body_mass_g', color='species', height=700, width=1050)
+fig.show()
+```
+
+```{python}
+#| title: facetas
+fig = px.scatter(df, x='flipper_length_mm', y='body_mass_g', color='species', facet_col='sex')
+fig.show()
+```
+
+```{python}
+#| title: Ajuste
+fig = px.scatter(df, x='flipper_length_mm', y='body_mass_g', color='species', trendline='ols')
+fig.show()
+```
+

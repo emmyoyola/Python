@@ -1,0 +1,101 @@
+edad,experiencia,salario,satisfaccion,productividad,evaluacion,genero,departamento
+29,6,102982.16,2,85,101,Masculino,Ventas
+33,11,89686.19,4,55,96,Masculino,Marketing
+51,9,66022.82,2,71,87,Masculino,IT
+36,8,78147.91,2,76,91,Masculino,Ventas
+36,5,63784.9,2,66,94,Femenino,Ventas
+52,10,62856.3,4,78,40,Femenino,Ventas
+40,6,58170.96,2,79,97,Masculino,Marketing
+22,2,61080.74,4,75,73,Masculino,Ventas
+28,8,94763.61,2,50,83,Masculino,Ventas
+31,15,69189.58,2,101,76,Masculino,Ventas
+47,7,71788.68,4,73,93,Femenino,Recursos Humanos
+39,13,73655.31,1,82,75,Masculino,Recursos Humanos
+39,2,88487.14,1,78,88,Femenino,Marketing
+36,10,62259.04,5,85,74,Femenino,Ventas
+29,13,55112.39,3,83,64,Femenino,Marketing
+53,12,95135.45,4,73,98,Masculino,Ventas
+40,11,63382.55,5,79,91,Femenino,Recursos Humanos
+15,7,59154.01,4,66,106,Femenino,Marketing
+42,6,51455.9,5,84,81,Femenino,Marketing
+30,5,50729.26,1,70,97,Femenino,Marketing
+24,11,61390.4,5,99,110,Masculino,IT
+33,5,79269.79,4,58,76,Femenino,IT
+25,8,86647.72,4,70,60,Masculino,Marketing
+28,9,80613.83,3,83,76,Masculino,Marketing
+29,19,64545.14,1,80,77,Femenino,Recursos Humanos
+18,7,70896.25,2,69,82,Femenino,Recursos Humanos
+43,11,59431.05,2,65,106,Masculino,IT
+37,10,59241.73,4,76,75,Masculino,Marketing
+24,5,83269.76,2,75,86,Masculino,Recursos Humanos
+48,10,54766.11,2,57,77,Masculino,Marketing
+39,17,99329.41,4,75,80,Masculino,Marketing
+32,12,68645.21,4,77,85,Masculino,Recursos Humanos
+44,10,73218.08,3,77,100,Masculino,Ventas
+44,8,58922.08,4,64,82,Femenino,IT
+43,0,61384.17,1,80,91,Femenino,Marketing
+42,16,50244.76,2,89,92,Masculino,IT
+41,3,67256.12,5,80,94,Masculino,IT
+34,14,76284.74,4,64,71,Femenino,IT
+32,20,74864.57,4,71,104,Masculino,Marketing
+31,3,58276.95,3,78,74,Masculino,Ventas
+28,14,58170.67,3,69,78,Masculino,Ventas
+33,9,62467.02,4,53,101,Femenino,IT
+22,2,92440.91,5,84,99,Masculino,IT
+57,2,52940.45,3,67,64,Femenino,Marketing
+47,2,67314.23,1,69,67,Femenino,Ventas
+24,7,98535.43,4,90,60,Femenino,Marketing
+31,3,68485.38,4,67,83,Femenino,Recursos Humanos
+30,13,49602.39,1,83,82,Femenino,Ventas
+43,21,60028.46,2,62,85,Femenino,Recursos Humanos
+34,4,77281.9,3,71,88,Femenino,Recursos Humanos
+38,14,64365.96,4,74,71,Masculino,IT
+35,14,61571.85,5,63,65,Femenino,Recursos Humanos
+35,12,64841.24,3,69,95,Masculino,Recursos Humanos
+49,5,71357.45,3,75,91,Masculino,Marketing
+33,9,93977.63,4,82,57,Femenino,Recursos Humanos
+50,9,68671.52,4,58,79,Femenino,Ventas
+20,13,86211.99,5,72,67,Masculino,Recursos Humanos
+41,8,79461.31,1,83,49,Femenino,Ventas
+36,15,68295.4,3,70,82,Masculino,Recursos Humanos
+37,8,47006.47,2,77,79,Masculino,Ventas
+39,15,62183.24,4,80,79,Femenino,Ventas
+30,5,62651.94,4,78,83,Femenino,IT
+32,4,70707.32,1,82,93,Masculino,IT
+25,26,89502.98,4,74,83,Femenino,Ventas
+24,8,104396.18,2,71,71,Masculino,Ventas
+38,11,93213.72,1,49,69,Femenino,Ventas
+39,13,68002.74,5,74,78,Masculino,Recursos Humanos
+36,8,43652.09,2,79,85,Masculino,Ventas
+44,13,64168.3,4,80,64,Femenino,Ventas
+56,12,71338.11,2,69,77,Femenino,IT
+30,9,82675.2,1,93,95,Femenino,Ventas
+12,10,84437.92,3,78,78,Femenino,Ventas
+45,10,80264.64,1,76,70,Femenino,Recursos Humanos
+28,21,49070.88,2,88,76,Femenino,IT
+28,6,82744.65,3,68,97,Femenino,Marketing
+45,5,63301.64,3,70,88,Femenino,Marketing
+32,10,72622.04,4,99,99,Femenino,Recursos Humanos
+23,12,71118.27,2,75,82,Femenino,IT
+37,12,76422.5,3,91,86,Masculino,Marketing
+34,8,70370.12,3,61,72,Masculino,Recursos Humanos
+35,5,44987.87,4,73,89,Masculino,Ventas
+39,16,81047.44,4,79,72,Masculino,Marketing
+31,8,75790.4,4,78,59,Masculino,IT
+41,6,66015.23,5,65,82,Masculino,Marketing
+33,9,71772.17,5,75,109,Masculino,IT
+38,9,72010.58,3,64,92,Femenino,IT
+46,16,73315.29,3,82,97,Femenino,IT
+39,10,94612.69,2,86,85,Femenino,IT
+32,14,66714.24,3,53,71,Masculino,Marketing
+46,8,72520.98,2,87,77,Masculino,Ventas
+45,11,87525.76,1,63,76,Femenino,Recursos Humanos
+40,8,85812.72,4,80,73,Femenino,IT
+37,10,87178.95,3,82,91,Masculino,Recursos Humanos
+29,6,61337.98,2,73,62,Femenino,IT
+49,3,100037.24,2,69,93,Masculino,Ventas
+29,20,71000.51,3,77,93,Masculino,Recursos Humanos
+57,13,98002.78,2,79,62,Masculino,IT
+50,4,49736.46,1,84,90,Femenino,Marketing
+33,7,70314.75,3,54,116,Masculino,Recursos Humanos
+25,4,88748.72,2,59,72,Masculino,IT
